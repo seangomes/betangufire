@@ -1,0 +1,45 @@
+<header>
+  <!--Logged in as a user-->
+<nav class="navbar navbar-expand navbar-light justify-content-between bgColor" *ngIf="isLoggedIn">
+  <h5>BetManager</h5>
+  <!--Buttons-->
+  <div>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item paddinItems">
+        <button class="btn btn-dark btn-sm buttonWidth">
+          <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+          <p class="pText">300</p>
+        </button>
+      </li>
+      <li class="nav-item paddinItems">
+        <button class="btn btn-dark btn-sm buttonWidth">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          <p class="pText">Kampe</p>
+        </button>
+      </li>
+      <li class="nav-item paddinItems">
+        <button class="btn btn-dark btn-sm buttonWidth">
+          <i class="fa fa-ticket" aria-hidden="true"></i>
+          <p class="pText">Kupon</p>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!--Not logged in as user-->
+<nav class="navbar navbar-expand navbar-light justify-content-between bgColor" *ngIf="!isLoggedIn">
+    <h5>BetManager</h5>
+    <!--Buttons-->
+    <div>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item paddinItems">
+          <button class="btn btn-dark btn-sm buttonWidth" (click)="loginLink()">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <p class="pText">Login</p>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
