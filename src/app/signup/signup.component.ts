@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { AuthService } from "../providers/auth/auth.service";
+import { User } from "../models/user";
 
 @Component({
   selector: 'app-signup',
@@ -7,9 +10,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  signupForm: FormGroup;
+  errorMessage : string;
+
+  constructor(private authService: AuthService, private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.createSignupForm();
+  }
+
+  createSignupForm() {
+    //Validator login form model
+    this.signupForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+    });
+  }
+
+  signup({value, valid} : {value: User, valid: boolean}) {
+    this.authService.signup(value.email, value.password, value.username)
+      .then((cb) => {
+        if (cb != undefined) {
+          if (cb.code === "auth/invalid-email" || cb.code === "auth/email-already-in-use" || cb.code === "auth/wrong-password" || cb.code === "auth/user-not-found") {
+            this.errorMessage = cb.message;
+          } else {
+            this.errorMessage == "";
+            //update users
+            this.authService.createNewUserTest();
+          }
+        }
+      });
+
+
+
   }
 
 }

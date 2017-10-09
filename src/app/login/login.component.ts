@@ -31,8 +31,4 @@ export class LoginComponent implements OnInit {
   login({value, valid} : { value : User, valid: boolean }) {
     this.authService.login(value.email, value.password);
   }
-
-  signup(data : any) {
-
-  }
 }

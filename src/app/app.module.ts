@@ -6,6 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //COMPONENTS
 import { AppComponent } from './app.component';
@@ -38,6 +41,16 @@ const appRoutes: Routes = [
   { path: '**', component: PagenotfoundComponent }
 ];
 
+//FIREBASE
+export const firebaseConfig = {
+  apiKey: "AIzaSyAV-I_zDPfh-b4_3dHAQqrhfVYQySV3We0",
+  authDomain: "bettingmanager-9bc20.firebaseapp.com",
+  databaseURL: "https://bettingmanager-9bc20.firebaseio.com",
+  projectId: "bettingmanager-9bc20",
+  storageBucket: "bettingmanager-9bc20.appspot.com",
+  messagingSenderId: "534443749204"
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +69,10 @@ const appRoutes: Routes = [
     HttpModule,
     HttpClientModule,
     MomentModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true }) // <-- debugging purposes only
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    RouterModule.forRoot(appRoutes, { enableTracing: false }) // <-- debugging purposes only
   ],
   providers: [AuthService, BettingService, UserService],
   bootstrap: [AppComponent]
