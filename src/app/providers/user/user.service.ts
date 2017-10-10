@@ -33,7 +33,7 @@ export class UserService {
 
   //Delete single user
   DeleteUser(user: User): Observable<User> {
-    return this.http.delete(this.url + 'api/user/'+ user.userId)
+    return this.http.delete(this.url + 'api/user/'+ "1")
       .map(this.extractData)
       .catch(this.handleError)
   }
@@ -42,7 +42,7 @@ export class UserService {
   UpdateUser(user: User): Observable<User> {
     //let headers = this.headers;
     let body = JSON.stringify(user);
-    return this.http.put(this.url + 'api/user/'+ user.userId, body)
+    return this.http.put(this.url + 'api/user/'+ "1", body)
       .map(this.extractData)
       .catch(this.handleError)
   }
