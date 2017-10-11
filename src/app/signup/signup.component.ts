@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { Router } from "@angular/router";
 import { AuthService } from "../providers/auth/auth.service";
 import { User } from "../models/user";
 
@@ -13,7 +14,7 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   errorMessage : string;
 
-  constructor(private authService: AuthService, private fb: FormBuilder) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.createSignupForm();
@@ -34,11 +35,10 @@ export class SignupComponent implements OnInit {
         if (cb != undefined) {
           if (cb.code === "auth/invalid-email" || cb.code === "auth/email-already-in-use" || cb.code === "auth/wrong-password" || cb.code === "auth/user-not-found") {
             this.errorMessage = cb.message;
-          } else {
-            this.errorMessage == "";
-            //update users
-            this.authService.createNewUserTest();
           }
+        }else {
+          this.errorMessage == "";
+          this.router.navigateByUrl("/login");
         }
       });
 

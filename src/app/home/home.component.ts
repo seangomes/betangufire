@@ -9,13 +9,15 @@ import { User } from "../models/user";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  isLoggedIn : boolean = false;
+
+  constructor(private authService: AuthService) {
+
+   }
 
   ngOnInit() {
+
   }
 
-  createNewUser() {
-    this.authService.createNewUserTest();
-  }
 
 }
