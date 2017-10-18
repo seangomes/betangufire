@@ -1,5 +1,30 @@
-<p>
-  home works!
-</p>
+<div class="container">
+  <button class="btn btn-success" (click)="GetFbUser()">Get user</button>
+</div>
 
 
+<div class="container" *ngIf="user">
+  {{user | json}}
+</div>
+
+<br>
+<div class="container">
+  <button class="btn btn-success" (click)="GetFbUsers()">Load users</button>
+</div>
+
+<div class="container">
+  <div *ngIf="userList">
+    <ul *ngFor="let item of userList">
+    <li>{{item | json}}</li>
+  </ul>
+  </div>
+</div>
+
+<br>
+<div class="container" *ngIf="isLoggedIn">
+  <button class="btn btn-danger" (click)="signOut()">Sign out</button>
+</div>
+<br><br>
+<div class="container" *ngIf="isLoggedIn">
+  <button class="btn btn-info" (click)="gotoAdimPage()">Goto admin</button>
+</div>

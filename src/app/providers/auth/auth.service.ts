@@ -5,48 +5,68 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from "../../models/user";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from "@angular/router";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {
-  private UserSubject = new BehaviorSubject(null);
-  public user: User;
-  public userList: User[] = [];
-  public authState: any = null;
+  private userSubject : BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  public currentUser$ = this.userSubject.asObservable();
 
-  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {
 
-    this.afAuth.authState.subscribe((auth) => {
-      this.authState = auth;
-    });
+  private isLoggedInSubject = new BehaviorSubject<boolean>(null);
+  public authStateSubject = new BehaviorSubject<any>(null);
 
+
+  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router, private userService: UserService) {
+    this.authStateSubject.next(afAuth.auth);
   }
 
-  // Returns true if user is logged in
-  get authenticated(): boolean {
-    return this.authState !== null;
+  //Check if user loggedIn
+  isLoggedIn() : Observable<boolean> {
+    return this.isLoggedInSubject.asObservable();
+  }
+
+  setIsLoggedIn(value : boolean) {
+    this.isLoggedInSubject.next(value);
+  }
+
+  getIsLoggedIn() : boolean {
+    return this.isLoggedInSubject.getValue();
   }
 
   // Returns current logged in user data
-  get currentUser(): Observable<User> {
-    return this.UserSubject.asObservable();
-    //return this.authenticated ? this.authState : null;
+  currentUser(userId: string): Observable<User> {
+    this.userService.GetFbUser(userId).subscribe((data) => {
+      if(data !== undefined || data !== null) {
+        //bind the user
+        this.userSubject.next(data);
+      }
+    });
+    return this.currentUser$;
   }
 
-  //Returns curremt user UID
-  get currentUserId(): string {
-    return this.authenticated ? this.authState.uid : '';
+  getAuthState() : Observable<any> {
+    return this.authStateSubject.asObservable();
   }
 
   //Email + password login
   login(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
-        this.authState = user;
-        this.router.navigateByUrl('/home');
+        //Signed in
+        this.isLoggedInSubject.next(true);
+        //Get firebase user
+        //console.log("login user data: ", user.uid);
+        localStorage.setItem('currentUser', JSON.stringify(user.uid));
+        //Get user from FB db
+        this.currentUser(user.uid).subscribe(userData => {
+          this.userSubject.next(userData);
+          this.router.navigateByUrl('/home');
+        });
       })
       .catch((error) => {
         return error;
@@ -82,7 +102,10 @@ export class AuthService {
   //Signout
   signout(): void {
     this.afAuth.auth.signOut();
-    this.router.navigate(['/']);
+    this.isLoggedInSubject.next(false);
+    // remove user from local storage to log user out
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/bet']);
   }
 
   ////HELPERS//////

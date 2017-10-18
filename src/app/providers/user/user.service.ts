@@ -1,63 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Http, Response, Headers, RequestOptions} from "@angular/http";
-import { Observable } from 'rxjs';
+import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from "../../models/user";
+import * as firebase from 'firebase/app';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from 'angularfire2/database';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { AuthService } from "../../providers/auth/auth.service";
 
 @Injectable()
 export class UserService {
 
-  url: string = 'http://localhost:57687/';
+  private userSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  public user$: Observable<any> = this.userSubject.asObservable();
+  public users$: Observable<any>;
+  public authSubject : BehaviorSubject<any> = new BehaviorSubject<any>(null);
   users: Observable<User[]>;
-  private headers = new Headers({'Content-Type': 'application/json'});
+  items: Observable<any[]>;
+  public currentUser : any;
+  private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  constructor(private http: HttpClient) {
-
+  constructor(private auth: AngularFireAuth, private af: AngularFireDatabase) {
   }
 
-  //Get all the users
-  GetUsers(): Observable<User[]> {
-    return this.http.get(this.url + 'api/User')
-      .map(this.extractData)
-      .catch(this.handleError)
+  //GetFirebaseUser
+  GetFbUser(userId: string): Observable<User> {
+    if (userId) {
+      //Get user in fb db
+      let user: AngularFireObject<{}> = this.af.object('/users/' + userId);
+      user.snapshotChanges().subscribe(snapshot => {
+        this.userSubject.next(snapshot.payload.val());
+      });
+    }
+
+    return this.user$;
   }
 
-  //Get single user
-  GetUser(userId: number): Observable<User> {
-    return this.http.get(this.url + 'api/user/'+userId)
-      .map(this.extractData)
-      .catch(this.handleError)
+  //GetAllFbUsers
+  GetAllFbUsers(): Observable<User[]> {
+    this.users$ = this.af.list('/users').valueChanges();
+    return this.users$;
   }
 
-  //Delete single user
-  DeleteUser(user: User): Observable<User> {
-    return this.http.delete(this.url + 'api/user/'+ "1")
-      .map(this.extractData)
-      .catch(this.handleError)
-  }
-
-  //Delete single user
-  UpdateUser(user: User): Observable<User> {
-    //let headers = this.headers;
-    let body = JSON.stringify(user);
-    return this.http.put(this.url + 'api/user/'+ "1", body)
-      .map(this.extractData)
-      .catch(this.handleError)
-  }
-
-  private extractData(res: Response) {
-    let body = res;
-    return body || [];
-  }
-
-  private handleError(error: any) {
-    // In a real world app, we might use a remote logging infrastructure
-    // We'd also dig deeper into the error to get a better message
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
-    return Observable.throw(errMsg);
-  }
 }

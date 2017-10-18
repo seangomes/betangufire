@@ -19,11 +19,19 @@ import { BettingComponent } from "./betting/betting.component";
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AdminSectionComponent } from './admin-section/admin-section.component';
+import { AdminCreateTeamlistComponent } from './admin-create-teamlist/admin-create-teamlist.component';
 
 //SERVICES
 import { BettingService } from "./providers/betting/betting.service";
 import { UserService } from "./providers/user/user.service";
 import { AuthService } from "./providers/auth/auth.service";
+import { UserSiteComponent } from './user-site/user-site.component';
+import { AdminService } from "./providers/admin/admin.service";
+
+//GUARDS
+import { AuthGuard } from "./guards/auth.guard";
+
 
 
 //ROUTES
@@ -32,7 +40,9 @@ const appRoutes: Routes = [
   { path: 'bet',  component: BettingComponent },
   { path: 'login',  component: LoginComponent },
   { path: 'signup',  component: SignupComponent },
-  //{ path: 'news', component: NewsComponent },
+  { path: 'user-site', component: UserSiteComponent, canActivate: [AuthGuard] },
+  { path: 'admin-section', component: AdminSectionComponent, canActivate: [AuthGuard]},
+  { path: 'admin-teamlist', component: AdminCreateTeamlistComponent, canActivate: [AuthGuard]},
   //{ path: 'ranks',  component: RanksComponent },
   { path: '',
     redirectTo: '/home',
@@ -60,7 +70,10 @@ export const firebaseConfig = {
     BettingComponent,
     HomeComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    UserSiteComponent,
+    AdminSectionComponent,
+    AdminCreateTeamlistComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +87,7 @@ export const firebaseConfig = {
     AngularFireAuthModule,
     RouterModule.forRoot(appRoutes, { enableTracing: false }) // <-- debugging purposes only
   ],
-  providers: [AuthService, BettingService, UserService],
+  providers: [AuthService, UserService,BettingService, AdminService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

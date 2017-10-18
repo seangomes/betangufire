@@ -1,14 +1,14 @@
 <header>
   <!--Logged in as a user-->
-<nav class="navbar navbar-expand navbar-light justify-content-between bgColor" *ngIf="isLoggedIn">
+<nav class="navbar navbar-expand navbar-light justify-content-between bgColor" *ngIf="isLoggedIn$ && currentUser">
   <h5>BetManager</h5>
   <!--Buttons-->
   <div>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item paddinItems">
-        <button class="btn btn-dark btn-sm buttonWidth">
+        <button class="btn btn-dark btn-sm buttonWidth" (click)="goToUserSite()">
           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-          <p class="pText">300</p>
+          <p class="pText">{{currentUser.money}}</p>
         </button>
       </li>
       <li class="nav-item paddinItems">
@@ -28,7 +28,7 @@
 </nav>
 
 <!--Not logged in as user-->
-<nav class="navbar navbar-expand navbar-light justify-content-between bgColor" *ngIf="!isLoggedIn">
+<nav class="navbar navbar-expand navbar-light justify-content-between bgColor" *ngIf="!isLoggedIn$">
     <h5>BetManager</h5>
     <!--Buttons-->
     <div>

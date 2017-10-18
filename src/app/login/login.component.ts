@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { AuthService } from "../providers/auth/auth.service";
 import { User } from "../models/user";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,15 @@ import { User } from "../models/user";
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  message: string;
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {
+    //If logged in redirect to home
+    if(this.authService.getIsLoggedIn()) {
+      router.navigate(['home']);
+    }
 
-   }
+  }
 
   ngOnInit() {
     this.createLoginForm();
@@ -29,6 +35,9 @@ export class LoginComponent implements OnInit {
   }
 
   login({value, valid} : { value : User, valid: boolean }) {
-    this.authService.login(value.email, value.password);
+    this.authService.login(value.email, value.password)
+      .then((data) => this.message = data)
+      .catch((error) => this.message = error);
   }
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../providers/auth/auth.service";
+import { UserService } from "../providers/user/user.service";
 import { User } from "../models/user";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,32 @@ import { User } from "../models/user";
 export class HomeComponent implements OnInit {
 
   isLoggedIn : boolean = false;
-
-  constructor(private authService: AuthService) {
-
+  user = null;
+  userList : any[] = [];
+  constructor(private authService: AuthService, private userService : UserService, private router: Router) {
+    this.isLoggedIn = this.authService.getIsLoggedIn();
    }
 
   ngOnInit() {
 
   }
 
+  GetFbUser() {
+    //this.userService.GetFbUser().subscribe(data => this.user = data);
+  }
 
+  GetFbUsers() {
+    // this.userService.GetAllFbUsers().subscribe((data) => {
+    //   this.userList = data;
+    //   console.log(data);
+    // });
+  }
+
+  signOut() {
+    this.authService.signout();
+  }
+
+  gotoAdimPage() {
+    this.router.navigate(['admin-section']);
+  }
 }

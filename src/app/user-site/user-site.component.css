@@ -1,0 +1,44 @@
+.imageContainer {
+  padding: 40px;
+  margin-bottom: 10px;
+}
+
+.dollarIcon {
+  color: orange;
+}
+
+.contentBackground {
+  background-color:#2F749D;
+  padding: 10px;
+}
+
+.icon {
+  margin-top: 5px;
+}
+
+.bets {
+  margin-top: 10px;
+}
+
+
+.alert-custom {
+  background-color:#2F749D;
+  border-color: #67ACD6;
+}
+
+.btn-custom {
+
+  color: #fff;
+  background-color: #67ACD6;
+  border-color: #2F749D;
+  min-width: 35px;
+}
+.btn-custom:hover {
+  color: #fff;
+  background-color: #0085D6;
+  border-color: #67ACD6;
+}
+
+.btn-container {
+  justify-content:space-between;
+}
