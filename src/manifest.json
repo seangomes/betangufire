@@ -1,0 +1,16 @@
+{
+  "short_name": "Betmanager",
+  "name": "Betmanager",
+  "start_url": "./index.html",
+  "theme_color": "#2F749D",
+  "background_color": "#00568A",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+        "src": "/assets/icons/android-chrome-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    }
+  ]
+}
