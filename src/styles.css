@@ -9,7 +9,9 @@
   margin-top: 20px;
 }
 
-
+.contentSpace {
+  margin-bottom: 5px;
+}
 
 p {
   font-size: 15px;

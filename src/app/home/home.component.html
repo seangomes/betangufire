@@ -28,3 +28,15 @@
 <div class="container" *ngIf="isLoggedIn">
   <button class="btn btn-info" (click)="gotoAdimPage()">Goto admin</button>
 </div>
+
+<br>
+<br>
+
+<div class="container">
+    <button class="btn btn-info" (click)="showLoader()">Show loader</button>
+    <button class="btn btn-info" (click)="hideLoader()">Hide loader</button>
+  </div>
+
+<div class="center">
+  <app-loader></app-loader>
+</div>

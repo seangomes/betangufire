@@ -7,6 +7,10 @@
   color: orange;
 }
 
+.text-normal {
+  font-size: 12px;
+}
+
 .contentBackground {
   background-color:#2F749D;
   padding: 10px;
@@ -16,6 +20,11 @@
   margin-top: 5px;
 }
 
+.refreshIcon {
+  margin-right: 5px;
+  color:white;
+}
+
 .bets {
   margin-top: 10px;
 }
@@ -23,22 +32,13 @@
 
 .alert-custom {
   background-color:#2F749D;
-  border-color: #67ACD6;
 }
 
-.btn-custom {
 
-  color: #fff;
-  background-color: #67ACD6;
-  border-color: #2F749D;
-  min-width: 35px;
+ul.nav-pills {
+  text-align: center;
 }
-.btn-custom:hover {
-  color: #fff;
-  background-color: #0085D6;
-  border-color: #67ACD6;
-}
-
-.btn-container {
-  justify-content:space-between;
+ul.nav-pills li {
+  float: none;
+  display: inline-block;
 }

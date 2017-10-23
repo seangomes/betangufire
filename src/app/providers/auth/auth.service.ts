@@ -17,6 +17,7 @@ export class AuthService {
   public currentUser$ = this.userSubject.asObservable();
 
 
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(null);
   public authStateSubject = new BehaviorSubject<any>(null);
 
@@ -119,6 +120,7 @@ export class AuthService {
 
           //Create a new user in realtime DB
           this.db.object("/users/" + userId).set({
+            id:userId,
             email: user.email,
             firstname: "",
             lastname: "",

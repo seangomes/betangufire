@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../providers/user/user.service";
-import { BetList } from "../providers/betting/betList";
+//import { BetList } from "../providers/betting/betList";
 import { Bet } from "../models/bet";
 @Component({
   selector: 'app-user-site',
@@ -10,7 +10,7 @@ import { Bet } from "../models/bet";
 export class UserSiteComponent implements OnInit {
 
   currentUser: any;
-  recentBets: Bet[] = BetList;
+  recentBets: Bet[] = [];
 
 
   constructor(private userService: UserService) {
@@ -23,6 +23,11 @@ export class UserSiteComponent implements OnInit {
 
   GetCurrentUser() {
     this.userService.user$.subscribe(user => this.currentUser = user);
+  }
+
+  refreshMatchHistory() {
+    console.log(this.recentBets);
+    return this.recentBets;
   }
 
 }

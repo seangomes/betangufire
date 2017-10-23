@@ -1,0 +1,51 @@
+<div class="container">
+  <app-alert></app-alert>
+</div>
+
+<!--Loader-->
+<app-loader></app-loader>
+
+<div class="container">
+  <form novalidate (ngSubmit)="updateUserProfile(userEditForm)" [formGroup]="userEditForm">
+    <!--Firstname Field-->
+    <div class="containerSpace">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">
+          <i class="fa fa-address-card-o"></i>
+        </span>
+        <input type="text" name="firstname" placeholder="Indtast fornavn" formControlName="firstname" class="form-control">
+      </div>
+    </div>
+    <!--Firstname Validation error-->
+    <div class="containerSpace">
+      <div class="alert alert-danger" *ngIf="userEditForm.get('firstname').hasError('required') && userEditForm.get('firstname').touched">
+        Fornavn er krævet!
+      </div>
+      <div class="alert alert-danger" *ngIf="userEditForm.get('firstname').hasError('pattern') && userEditForm.get('firstname').touched">
+        Dit fornavn skal være mindst 2 tegn!
+      </div>
+    </div>
+    <!--Lastname Field-->
+    <div class="containerSpace">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">
+          <i class="fa fa-address-card-o"></i>
+        </span>
+        <input type="text" name="lastname" placeholder="Indtast efternavn" formControlName="lastname" class="form-control">
+      </div>
+    </div>
+    <!--Lastname Validation error-->
+    <div class="containerSpace">
+      <div class="alert alert-danger" *ngIf="userEditForm.get('lastname').hasError('required') && userEditForm.get('lastname').touched">
+        Efternavn er krævet!
+      </div>
+      <div class="alert alert-danger" *ngIf="userEditForm.get('lastname').hasError('minLength') && userEditForm.get('lastname').touched">
+        Efternavn skal være mindst 2 tegn!
+      </div>
+    </div>
+    <div class="containerSpace">
+      <button type="submit" style="width: 100%" class="btn btn-primary" [disabled]="userEditForm.invalid">Opdater</button>
+    </div>
+  </form>
+</div>
+<br/>

@@ -36,6 +36,14 @@ export class NavigationComponent implements OnInit {
     }
   }
 
+  goToMatchSection() {
+    if(this.isLoggedIn$){
+      this.router.navigateByUrl("/admin-kampe");
+    }else {
+      this.router.navigateByUrl("/login");
+    }
+  }
+
   loginLink() {
     if(this.isLoggedIn$){
       this.router.navigateByUrl("/home");

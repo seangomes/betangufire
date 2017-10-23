@@ -13,7 +13,7 @@ export class BettingComponent implements OnInit {
   constructor(private betService: BettingService) { }
 
   ngOnInit() {
-    this.betList = this.betService.GetDummyData();
+    //this.betList = this.betService.GetDummyData();
   }
 
 }

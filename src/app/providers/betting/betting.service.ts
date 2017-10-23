@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Bet } from "../../models/bet";
 //Dummy data
-import { BetList } from "../betting/betList";
+//import { BetList } from "../betting/betList";
 
 @Injectable()
 export class BettingService {
@@ -18,7 +18,7 @@ export class BettingService {
 
 
   GetDummyData() {
-    return BetList;
+    //return BetList;
   }
 
 

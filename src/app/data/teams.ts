@@ -1,7 +1,7 @@
 
 import { Team } from "../models/team";
 
-export const Teams: Team[] = [
+export const Teams: any[] = [
     {
       name: "Manchester United FC",
       code: "MUFC",

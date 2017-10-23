@@ -3,6 +3,7 @@ import { AuthService } from "../providers/auth/auth.service";
 import { UserService } from "../providers/user/user.service";
 import { User } from "../models/user";
 import { Router } from '@angular/router';
+import { LoaderService } from "../providers/loader/loader.service";
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ export class HomeComponent implements OnInit {
   isLoggedIn : boolean = false;
   user = null;
   userList : any[] = [];
-  constructor(private authService: AuthService, private userService : UserService, private router: Router) {
+  constructor(private authService: AuthService, private userService : UserService, private loaderService: LoaderService, private router: Router) {
     this.isLoggedIn = this.authService.getIsLoggedIn();
    }
 
@@ -39,5 +40,13 @@ export class HomeComponent implements OnInit {
 
   gotoAdimPage() {
     this.router.navigate(['admin-section']);
+  }
+
+  showLoader() {
+    this.loaderService.showLoader();
+  }
+
+  hideLoader() {
+    this.loaderService.hideLoader();
   }
 }

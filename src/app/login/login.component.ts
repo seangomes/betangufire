@@ -3,6 +3,7 @@ import { FormControl, FormBuilder, FormGroup,  Validators } from '@angular/forms
 import { AuthService } from "../providers/auth/auth.service";
 import { User } from "../models/user";
 import { Router } from '@angular/router';
+import { LoaderService } from "../providers/loader/loader.service";
 
 @Component({
   selector: 'app-login',
@@ -13,8 +14,12 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   message: string;
+  loader : boolean;
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {
+  constructor(private authService: AuthService, private loaderSerice: LoaderService, private fb: FormBuilder, private router: Router) {
+    //Connecting loader
+    this.loaderSerice.getLoader().subscribe(loaderData => this.loader = loaderData);
+
     //If logged in redirect to home
     if(this.authService.getIsLoggedIn()) {
       router.navigate(['home']);
@@ -35,9 +40,13 @@ export class LoginComponent implements OnInit {
   }
 
   login({value, valid} : { value : User, valid: boolean }) {
+    //Starts the loader
+    this.loaderSerice.showLoader();
     this.authService.login(value.email, value.password)
-      .then((data) => this.message = data)
+      .then((data) => {
+        this.message = data;
+        this.loaderSerice.hideLoader();
+      } )
       .catch((error) => this.message = error);
   }
-
 }
