@@ -3,10 +3,11 @@
 }
 
 .toggleHomeColor {
-  color: green;
+  background-color: green;
 }
 
 .toggleAwayColor {
-  color: red;
+  background-color: red;
 }
+
 

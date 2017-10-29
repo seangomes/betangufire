@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AdminService } from "../providers/admin/admin.service";
 import { Team } from 'app/models/team';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-kampe-createkamp',
@@ -9,17 +10,27 @@ import { Team } from 'app/models/team';
   styleUrls: ['./admin-kampe-createkamp.component.css']
 })
 export class AdminKampeCreatekampComponent implements OnInit {
+  newTeamForm: FormGroup;
   public teams : Team[];
   homeActive : boolean;
   awayActive: boolean;
-  selectedHomeItem : Team;
-  selectedAwayItem : Team;
+  selectedHomeItem : Team = { id:"", code:"", crestUrl:"", name:"", shortName: ""};
+  selectedAwayItem : Team = { id:"", code:"", crestUrl:"", name:"", shortName: ""};
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.createTeamForm();
     this.getTeams();
-    this.homeActive = false;
+  }
+
+  createTeamForm() {
+    //Validator login form model
+    this.newTeamForm = this.fb.group({
+      homeTeam: ['', [Validators.required]],
+      awayTeam: ['', [Validators.required, Validators.minLength(5)]]
+    });
+
   }
 
   toggleHomeClass(team) {

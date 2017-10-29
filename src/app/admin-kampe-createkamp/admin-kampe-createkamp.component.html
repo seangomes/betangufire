@@ -1,35 +1,93 @@
 <div class="row">
+  <!--Choose team dropdown-->
   <div class="container" *ngIf="teams">
     <!--Collapse header-->
-      <div id="accordion" role="tablist">
-        <div class="card">
-          <div class="card-header" role="tab" id="headingOne">
-              <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <div id="accordion" role="tablist">
+      <div class="card">
+        <div class="card-header" role="tab" id="headingOne">
+          <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             <h5 class="mb-0 color text-center">
-                Vælg hold
+              Vælg hold
             </h5>
           </a>
-          </div>
-          <!--Collapse Content-->
-          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-              <div *ngFor="let team of teams">
-                  <div class="row contentSpace">
+        </div>
+        <!--Collapse Content-->
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            <div *ngFor="let team of teams">
+              <div class="row contentSpace">
                 <div class="col-2">
-                    <img [src]="team.crestUrl" alt="{{team.name}}" height="32" width="32" />
+                  <img [src]="team.crestUrl" alt="{{team.name}}" height="32" width="32" />
                 </div>
                 <div class="col-5">
-                    {{team.name}}
+                  {{team.name}}
                 </div>
-                <div class="col"><span (click)="toggleHomeClass(team)" [ngClass]="{'toggleHomeColor': selectedHomeItem == team}">home</span> - <span (click)="toggleAwayClass(team)" [ngClass]="{'toggleAwayColor': selectedAwayItem == team}">away</span></div>
+                <div class="col">
+                  <span (click)="toggleHomeClass(team)" [ngClass]="{'toggleHomeColor': selectedHomeItem == team}">home</span> -
+                  <span (click)="toggleAwayClass(team)" [ngClass]="{'toggleAwayColor': selectedAwayItem == team}">away</span>
+                </div>
               </div>
               <hr>
-              </div>
             </div>
           </div>
         </div>
-
-
-
+      </div>
     </div>
   </div>
+</div>
+<!--Form-->
+<div class="row containerSpace">
+  <div class="container">
+    <form novalidate (ngSubmit)="createTeam(newTeamForm)" [formGroup]="newTeamForm">
+      <!--Home Team Field-->
+      <div class="row">
+        <div class="col-12">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+              <img [src]="selectedHomeItem.crestUrl" height="16" width="16">
+            </span>
+            <input type="text" disabled name="homeTeam" placeholder="Hjemmehold" [(ngModel)]="selectedHomeItem.name" formControlName="homeTeam"
+              class="form-control">
+          </div>
+          <!--Email Validation error-->
+          <div class="alert alert-danger" *ngIf="newTeamForm.get('homeTeam').hasError('required') && newTeamForm.get('homeTeam').touched">
+            Hjemmehold er krævet!
+          </div>
+        </div>
+        <div class="col-12">
+          <h4 class="text-center">vs</h4>
+        </div>
+        <!--Away Team Field-->
+        <div class="col-12">
+          <div class="input-group">
+            <input type="text" disabled name="awayTeam" placeholder="Udehold" formControlName="awayTeam" [(ngModel)]="selectedAwayItem.name"
+              class="form-control">
+            <span class="input-group-addon" id="basic-addon1">
+              <img [src]="selectedAwayItem.crestUrl" height="16" width="16">
+            </span>
+          </div>
+          <!--Away Team Validation error-->
+          <div class="">
+            <div class="alert alert-danger" *ngIf="newTeamForm.get('awayTeam').hasError('required') && newTeamForm.get('awayTeam').touched">
+              Udehold er krævet!
+            </div>
+          </div>
+
+        </div>
+        <!--Datepicker and time-->
+        <div class="col-12">
+          <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+            <input type="date" name="date" [(ngModel)]="newTeamForm.date" class="form-control">
+          </div>
+        </div>
+        <!--Submit-->
+        <div>
+            <button type="submit" style="width: 100%" class="btn btn-primary loginBtn" [disabled]="newTeamForm.invalid">Opret hold</button>
+          </div>
+      </div>
+    </form>
+  </div>
+</div>
